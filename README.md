@@ -65,8 +65,8 @@ Typical error:
 Download or clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/vmware-kernel-fixer.git
-cd vmware-kernel-fixer
+git clone https://github.com/chxrvsr00t/VMwareKernelModulesFixerforLinux
+cd VMwareKernelModulesFixerforLinux
 ```
 
 Grant execution permission:
