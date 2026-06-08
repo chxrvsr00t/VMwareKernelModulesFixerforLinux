@@ -1,40 +1,211 @@
-Lỗi vỡ hiển thị là do khi ném đoạn code Markdown vào trong một khối Code Block lớn, nó dễ bị xung đột cú pháp hiển thị trên một số giao diện.
+# 🛠️ VMware Kernel Modules Fixer for Linux
 
-Dưới đây là toàn bộ nội dung file README.md ở dạng Plain Text hoàn toàn sạch sẽ, không bọc trong bất kỳ khối code nào để bạn copy chuẩn 100% không sợ lỗi:
+![Linux](https://img.shields.io/badge/Linux-Supported-success)
+![Bash](https://img.shields.io/badge/Bash-Script-blue)
+![VMware](https://img.shields.io/badge/VMware-Workstation-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-🛠️ VMware Kernel Modules Fixer for Linux
-A simple Bash script to automatically rebuild and fix VMware Workstation kernel modules (vmmon, vmnet) and USB services (vmware-usbarbitrator) on Linux distributions (especially Kali Linux, Ubuntu, and Debian).
+Automatically rebuild and repair VMware Workstation kernel modules after kernel updates, unexpected shutdowns, or broken VMware services.
 
-🇻🇳 Hướng Dẫn Sử Dụng (Vietnamese)
-❌ Lỗi thường gặp / Common Error
-Khi Linux cập nhật Kernel mới hoặc máy bị tắt đột ngột, bạn sẽ gặp lỗi không mở được máy ảo như hình bên dưới:
+Supports:
 
-Hình ảnh lỗi: Could not open /dev/vmmon: No such file or directory.
+* Kali Linux
+* Ubuntu
+* Debian
+* Most Debian-based distributions
 
-🚀 Cách chạy Script để fix lỗi
-Tải hoặc sao chép file fix_vmware.sh về máy của bạn.
+---
 
-Mở Terminal tại thư mục chứa file và cấp quyền thực thi:
+## 📋 Table of Contents
+
+* Features
+* Common Error
+* Installation
+* Usage
+* What the Script Does
+* Result
+* Contributing
+
+---
+
+## ✨ Features
+
+✔ Rebuild VMware kernel modules automatically
+
+✔ Fix missing `/dev/vmmon`
+
+✔ Restart VMware networking services
+
+✔ Reload `vmmon` and `vmnet` drivers
+
+✔ Restore USB passthrough functionality
+
+✔ Works after Linux kernel upgrades
+
+✔ Lightweight Bash script
+
+---
+
+## ❌ Common Error
+
+After a Linux kernel update or an unexpected system shutdown, VMware may fail to start virtual machines.
+
+Typical error:
+
+> Could not open /dev/vmmon: No such file or directory
+
+### Example
+
+![VMware Error](Screenshot%20From%202026-06-08%2008-20-00.png)
+
+---
+
+## 🚀 Installation
+
+Download or clone the repository:
+
+```bash
+git clone https://github.com/yourusername/vmware-kernel-fixer.git
+cd vmware-kernel-fixer
+```
+
+Grant execution permission:
+
+```bash
 chmod +x fix_vmware.sh
+```
 
-Chạy script bằng quyền sudo:
+---
+
+## ▶️ Usage
+
+Run the script with root privileges:
+
+```bash
 sudo ./fix_vmware.sh
+```
 
-🎉 Kết quả / Result
-Sau khi script chạy xong, bạn mở lại VMware sẽ thấy các tab máy ảo hoạt động bình thường, nhận đầy đủ mạng và thiết bị USB ngoại vi:
+Wait for the process to complete.
 
-🇬🇧 Features & Technical Details (English)
-The script executes the following steps sequentially with root privilege checks:
+The script will automatically rebuild VMware modules and restart required services.
 
-Rebuilds all VMware core modules via vmware-modconfig.
+---
 
-Starts virtual networks (vmnet0, vmnet1, vmnet8).
+## ⚙️ What the Script Does
 
-Loads the vmmon driver into the Linux kernel using modprobe.
+The script performs the following actions:
 
-Triggers the vmware-usbarbitrator to fix USB pass-through detection.
+### 1. Rebuild VMware Modules
 
-🤝 Contributing
-Feel free to fork this repository, open issues, or submit pull requests if you want to add support for Secure Boot (MOK signing automatically)!
+```bash
+vmware-modconfig --console --install-all
+```
 
-![image](Screenshot From 2026-06-08 08-20-00.png)
+Recompiles:
+
+* vmmon
+* vmnet
+
+for the currently installed Linux kernel.
+
+---
+
+### 2. Restart VMware Networking
+
+Restores:
+
+* vmnet0
+* vmnet1
+* vmnet8
+
+Required for NAT, Host-Only, and Bridged networking.
+
+---
+
+### 3. Load Kernel Drivers
+
+```bash
+modprobe vmmon
+modprobe vmnet
+```
+
+Loads VMware drivers into the running kernel.
+
+---
+
+### 4. Restore USB Passthrough
+
+Restarts:
+
+```bash
+vmware-usbarbitrator
+```
+
+Allows VMware guests to detect and use USB devices correctly.
+
+---
+
+## 🎉 Result
+
+After successful execution:
+
+✅ Virtual machines start normally
+
+✅ VMware networking works correctly
+
+✅ USB devices are detected
+
+✅ No more `/dev/vmmon` errors
+
+---
+
+## 🇻🇳 Hướng Dẫn Nhanh
+
+### Bước 1
+
+Cấp quyền thực thi:
+
+```bash
+chmod +x fix_vmware.sh
+```
+
+### Bước 2
+
+Chạy script:
+
+```bash
+sudo ./fix_vmware.sh
+```
+
+### Bước 3
+
+Mở lại VMware Workstation.
+
+Nếu thành công:
+
+* Máy ảo khởi động bình thường
+* Có kết nối mạng
+* Nhận USB đầy đủ
+* Không còn lỗi vmmon
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome.
+
+Ideas for future improvements:
+
+* Secure Boot support
+* Automatic MOK signing
+* VMware Player support
+* Fedora compatibility
+* Auto-detection of VMware installation paths
+
+---
+
+## ⭐ Support
+
+If this project helped you, consider giving the repository a ⭐ on GitHub.
+
+It helps others discover the project and motivates future updates.
