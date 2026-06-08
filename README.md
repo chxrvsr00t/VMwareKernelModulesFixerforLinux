@@ -37,4 +37,4 @@ Triggers the vmware-usbarbitrator to fix USB pass-through detection.
 🤝 Contributing
 Feel free to fork this repository, open issues, or submit pull requests if you want to add support for Secure Boot (MOK signing automatically)!
 
-![image](Đường dẫn đến file ảnh)
+![image](Screenshot From 2026-06-08 08-20-00.png)
